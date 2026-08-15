@@ -1,0 +1,50 @@
+
+<module>
+  <rawname>gateway</rawname>
+  <name>Gateway</name>
+  <version>17.0.17</version>
+  <publisher>Franck Danard</publisher>
+  <license>GPL3+</license>
+  <changelog>
+    *17.0.17* Fix the Submit/Cancel action bar buttons disappearing when redisplaying the Add/Edit form after a failed validation (e.g. duplicate DID/IP/Account Code, cf 17.0.15). The form posts back to a plain URL with no "action" parameter, which getActionBar() relied on to decide whether to show the buttons; it now also checks the outcome of the just-processed add/edit attempt so the buttons stay visible while the user corrects the form.
+    *17.0.16* Add a GraphQL API (allGateways, gateway, addGateway, updateGateway, removeGateway under the read:gateway/write:gateway scopes). Refactor add/update/delete into shared Gateway::addGateway()/updateGateway()/deleteGateway() so the web UI and the API run through the exact same validation, duplicate-checks and prepared-statement writes.
+    *17.0.15* Prevent duplicate Gateway IP/Account Code/DID across gateways, with toast alerts. Harden field validation (strict formats, XSS/injection fixes, email validation bypass). Keep the Add/Edit form open with entered data on validation error instead of redirecting to the list. Add missing i18n translations.
+    *17.0.14* Set user_eq_phone=yes on gateways for PSTN interop. Backfill PJSIP settings on existing gateways at install/upgrade.
+    *17.0.13* Fixe some issues.
+    *17.0.12* Add accountcode for local calls.
+    *17.0.12* Add accountcode tags for inbound calls. Add call_limit for gateways. Shows status of gateways in the table. 
+    *17.0.11* New version.
+    *17.0.10* Update and removing some stuffs.
+    *17.0.9* Ready for GPL3. 
+    *17.0.8* Fixe issue showing wrong data when we are adding a gateway. 
+    *17.0.7* Fixe issue clearing json locales. 
+    *17.0.6* enable repos.
+    *17.0.5* Translate JS i18n words. Fixe some bugs.
+    *17.0.4* improving dialplan and fixe some regex bugs. 
+    *17.0.3* change dialplan.
+    *17.0.2* fix some bugs.
+    *17.0.1* Initial release.
+  </changelog>
+  <category>Connectivity</category>
+  <description>Allow any extensions to be used as a gateway connected via a SIP trunk to another FreePBX server or Gateway.</description>
+  <menuitems>
+    <gateway>Gateway</gateway>
+  </menuitems>
+  <supported>17.0</supported>
+  <database>
+    <table name="gateway">
+        <field name="extension" type="string" length="30" primarykey="true"/>
+        <field name="description" type="string" notnull="false"/>
+        <field name="contact" type="string" length="100" notnull="true"/>
+        <field name="address" type="string" length="255" notnull="false"/>
+        <field name="city" type="string" length="50" notnull="false"/>
+        <field name="zip_code" type="string" length="6" notnull="false"/>
+        <field name="country" type="string" length="50" notnull="false"/>
+        <field name="email" type="string" length="100" notnull="false"/>
+        <field name="gateway" type="string" length="255" notnull="true"/>
+        <field name="dids" type="blob" notnull="true"/>
+        <field name="call_limit" type="integer" default="0" notnull="true"/>
+        <field name="accountcode" type="string" length="100" notnull="false"/>
+    </table>
+  </database>
+</module>
